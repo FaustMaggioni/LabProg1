@@ -11,6 +11,8 @@ public class Milanesa extends Comida {
             }
         }
     }
-    
+    protected void unaClaseEj(){
+        // hello
+    }
     // hay que agregar las clases auto, moto bici
 }
