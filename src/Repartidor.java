@@ -1,7 +1,9 @@
-abstract public class Repartidor {
-    abstract public void repartir();
+abstract public class Repartidor implements Runnable{
+    public void repartir(){
+        //Thread sleep algo.. Las subclases pueden sumar tiempo dependiendo de cada una
+    }
 
-    public Repartidor crearRepartidor(String tipo){
-
+    public void run(){
+        repartir();
     }
 }
