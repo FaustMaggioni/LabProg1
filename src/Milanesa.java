@@ -10,9 +10,31 @@ public class Milanesa extends Comida {
                 return new Auto();
             }
         }
+        
     }
-    protected void unaClaseEj(){
-        // hello
+
+    // codigo de dudosa calidad
+
+    class Moto implements Repartidor{
+        public Moto (){
+        }
+        public void repartir(){
+            System.out.println("repartiendo en moto");
+        }
     }
-    // hay que agregar las clases auto, moto bici
-}
+    class Auto implements Repartidor{
+        public Auto (){
+            
+        }
+                public void repartir(){
+            System.out.println("repartiendo en auto");
+        }
+    }
+    class Bici implements Repartidor{
+        public Bici (){
+            
+        }
+                public void repartir(){
+            System.out.println("repartiendo en bici");
+        }
+    }
