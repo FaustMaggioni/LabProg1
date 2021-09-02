@@ -1,8 +1,10 @@
+
+
 public class FabricaRepartidorEnMoto extends FabricaRepartidores {
     //Fabrica concreta
 
-    @Override
-    protected Repartidor crearRepartidor() {
-        return new RepartidorEnMoto();
+    protected Repartidor crearRepartidor(String comida) {
+        return new RepartidorEnMoto(comida);
     }
+
 }

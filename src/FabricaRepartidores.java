@@ -1,9 +1,13 @@
+
+
+
+
 abstract public class FabricaRepartidores {
 
-    public Repartidor llamarDelivery(){
-        Repartidor repartidor = crearRepartidor();
+    public Repartidor llamarDelivery(String comida){
+        Repartidor repartidor = crearRepartidor(comida);
         return repartidor;
     }
 
-    abstract protected Repartidor crearRepartidor();
+    abstract protected Repartidor crearRepartidor(String comida);
 }

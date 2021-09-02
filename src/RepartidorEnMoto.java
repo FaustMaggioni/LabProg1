@@ -1,4 +1,9 @@
+
 public class RepartidorEnMoto extends Repartidor {
+
+    public RepartidorEnMoto(String comida) {
+        super(comida);
+    }
 
     @Override
     protected void repartir() throws Exception {

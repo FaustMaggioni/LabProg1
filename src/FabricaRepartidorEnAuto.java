@@ -1,5 +1,12 @@
+
+
 public class FabricaRepartidorEnAuto extends FabricaRepartidores {
-    protected Repartidor crearRepartidor() {
-        return new RepartidorEnAuto();
+
+    public FabricaRepartidorEnAuto() {
+
+    }
+
+    protected Repartidor crearRepartidor( String comida) {
+        return new RepartidorEnAuto(comida);
     }
 }
