@@ -1,24 +1,39 @@
 
 abstract public class Repartidor implements Runnable {
 
-    String comida;
+    static int contador = 0;
+    String nombre, pedido;
+    int velocidad;
 
-    public Repartidor(String comida) {
-        this.comida = comida;
+    public Repartidor(String pedido, String comida) {
+        this.pedido = pedido + " (" + comida + ")";
+        contador++;
+        nombre = "R" + contador;
+        velocidad = 3; // velocidad promedio, las subclases definen su velocidad
     }
 
     public void run() {
         try {
-            repartir();
-            System.out.println("llega a destino!");
+            arrancar();
+            llevar();
+            entregar();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    protected void repartir() throws Exception {
-        System.out.println("Busca la direccion en Google Maps para llevar " + comida);
-        Thread.sleep(6000);
+    protected void arrancar() throws Exception {
+        System.out.println(nombre + " busca la direccion en Google Maps para llevar el " + pedido);
+        Thread.sleep(2000);
+    }
+
+    protected void llevar() throws InterruptedException {
+        System.out.println(nombre + " lleva " + pedido);
+        Thread.sleep(10000 / velocidad);
+    }
+
+    protected void entregar() {
+        System.out.println(nombre + " entrega " + pedido);
     }
 
 }

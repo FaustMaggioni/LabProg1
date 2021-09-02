@@ -13,17 +13,28 @@ import java.util.Random;
  */
 public class Cliente implements Runnable {
 
+    private static int contador = 0;
+    private String nombre;
     private final AdministradorDelivery delivery;
 
     public Cliente(AdministradorDelivery delivery) {
         this.delivery = delivery;
+        contador ++;
+        nombre = "C"+contador;
     }
 
     @Override
     public void run() {
         HashMap<Integer, String> menu = delivery.pedirMenu();
-        int i = new Random().nextInt(menu.size())+1;
-        delivery.pedirComida(i);
+        try {
+            System.out.println(nombre+" mira el menu");
+            Thread.sleep(1000); // simula estar eligiendo que pedir
+        } catch (Exception e) {
+
+        };
+        int i = new Random().nextInt(menu.size()) + 1;
+        String pedido = delivery.pedirComida(i);
+        System.out.println(nombre + " pide "+ menu.get(i)+ " y recibe la comanda: "+pedido);
     }
 
 }

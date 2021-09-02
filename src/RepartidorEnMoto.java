@@ -1,16 +1,16 @@
 
 public class RepartidorEnMoto extends Repartidor {
 
-    public RepartidorEnMoto(String comida) {
-        super(comida);
+    public RepartidorEnMoto(String pedido, String comida) {
+        super(pedido, comida);
+        nombre += " en moto";
+        velocidad = 4;
     }
 
     @Override
-    protected void repartir() throws Exception {
-        super.repartir();
-        System.out.println("~~~~~~~~~~ Se pone el casco, y arranca la moto");
-        Thread.sleep(5000);
-        System.out.println("~~~~~~~~~~ Pone 1ra y comienza el recorrido");
-        Thread.sleep(15000);
+    protected void arrancar() throws Exception {
+        super.arrancar();
+        System.out.println(nombre + " se pone el casco, y arranca");
+        Thread.sleep(1000);
     }
 }

@@ -1,15 +1,16 @@
 
 public class RepartidorEnAuto extends Repartidor {
 
-    public RepartidorEnAuto(String comida) {
-        super(comida);
+    public RepartidorEnAuto(String pedido, String comida) {
+        super(pedido, comida);
+        nombre += " en auto";
+        velocidad = 3;
     }
-    
-    protected void repartir() throws Exception {
-        super.repartir();
-        System.out.println("......... Calienta un poco el auto");
-        Thread.sleep(5000);
-        System.out.println("......... Arranca a repartir");
-        Thread.sleep(10000);
+
+    @Override
+    protected void arrancar() throws Exception {
+        super.arrancar();
+        System.out.println(nombre + " calienta el motor");
+        Thread.sleep(1000);
     }
 }
