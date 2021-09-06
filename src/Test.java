@@ -11,8 +11,7 @@ public class Test {
         ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
         AtomicInteger cont = new AtomicInteger();
         Runnable ejecutable = () -> {
-            Thread hilo = new Thread(new Cliente(delivery, cont.get()));
-            cont.getAndIncrement();
+            Thread hilo = new Thread(new Cliente(delivery, cont.getAndIncrement()));
             hilo.start();
         };
         pool.scheduleAtFixedRate(ejecutable, 0, 3, TimeUnit.SECONDS);
