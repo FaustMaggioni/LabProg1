@@ -9,7 +9,6 @@ abstract public class Repartidor implements Runnable {
         this.pedido = pedido + " (" + comida + ")";
         contador++;
         nombre = "R" + contador;
-        velocidad = 3; // velocidad promedio, las subclases definen su velocidad
     }
 
     public void run() {

@@ -16,6 +16,7 @@ public class Cliente implements Runnable {
     private static int contador = 0;
     private String nombre;
     private final AdministradorDelivery delivery;
+    private Random generator = new Random();
 
     public Cliente(AdministradorDelivery delivery) {
         this.delivery = delivery;
@@ -32,7 +33,7 @@ public class Cliente implements Runnable {
         } catch (Exception e) {
 
         };
-        int i = new Random().nextInt(menu.size()) + 1;
+        int i = generator.nextInt(menu.size()) + 1;
         String pedido = delivery.pedirComida(i);
         System.out.println(nombre + " pide "+ menu.get(i)+ " y recibe la comanda: "+pedido);
     }
