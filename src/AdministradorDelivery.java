@@ -7,6 +7,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AdministradorDelivery {
 
@@ -16,25 +17,47 @@ public class AdministradorDelivery {
     private final FabricaRepartidorEnBici fabricaBici = new FabricaRepartidorEnBici();
     private final HashMap<Integer, String> menu = new HashMap();
     private final HashMap<Integer, FabricaRepartidores> fabricas = new HashMap();
-    private CopyOnWriteArrayList<Cliente> clientesAConsultar = new CopyOnWriteArrayList<>();
+    private LinkedBlockingQueue<Cliente> clientesAConsultar = new LinkedBlockingQueue<Cliente>();
+    private CopyOnWriteArrayList<Integer> calificaciones = new CopyOnWriteArrayList<Integer>();
     private ScheduledExecutorService inspectores = Executors.newScheduledThreadPool(5);
-
+    private ReentrantLock clientesLock = new ReentrantLock();
     public AdministradorDelivery() {
         this.llenarMenu();
         this.setFabricas();
-        this.setInspectores();
+        this.setEncuesta();
+        this.setCorte();
     }
 
-    private void setInspectores(){
+    private void setEncuesta() {
         for(int i=0; i<5; i++) {
             inspectores.scheduleAtFixedRate(() -> {
-                if (!clientesAConsultar.isEmpty()) {
-                    Cliente clienteAConsultar = clientesAConsultar.get(0);
-                    clientesAConsultar.remove(0);
-                    new Inspeccion(clienteAConsultar);
+                try {
+                    Cliente clienteAConsultar = clientesAConsultar.take();
+                    int calificacion = clienteAConsultar.contestarEncuesta();
+                    calificaciones.add(calificacion);
+                }catch (InterruptedException e){
+                    System.out.println(e.getMessage());
                 }
             }, 30, 20, TimeUnit.SECONDS);
         }
+    }
+
+    private void setCorte(){
+        inspectores.schedule(() -> {
+            inspectores.shutdownNow();
+            double promedioCalificaciones = calcularPromedioCalificaciones();
+            System.out.println(" - - - - - RESULTADOS DE LA ENCUESTA!!!!! \n PROMEDIO CALIFICACIONES: "+promedioCalificaciones);
+        }, 1, TimeUnit.MINUTES);
+    }
+
+    private double calcularPromedioCalificaciones(){
+        int sumatoria=0;
+        int tam = calificaciones.size();
+        for(int i=0; i<tam;i++){
+            sumatoria+= (int) calificaciones.get(i);
+        }
+        double promedio = sumatoria/tam;
+        return promedio;
     }
 
     private void llenarMenu(){
@@ -63,8 +86,12 @@ public class AdministradorDelivery {
         return pedido;
     }
 
-    private void añadirCliente(Cliente cliente){
-        clientesAConsultar.add(cliente);
+    private void añadirCliente(Cliente cliente) {
+        try {
+            clientesAConsultar.put(cliente);
+        } catch (InterruptedException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void asignar(FabricaRepartidores fabrica, String pedido, String comida) {

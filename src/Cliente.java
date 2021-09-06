@@ -13,15 +13,19 @@ import java.util.Random;
  */
 public class Cliente implements Runnable {
 
-    private static int contador = 0;
+    private int id = 0;
     private String nombre;
     private final AdministradorDelivery delivery;
     private Random generator = new Random();
 
-    public Cliente(AdministradorDelivery delivery) {
+    public Cliente(AdministradorDelivery delivery, int id) {
         this.delivery = delivery;
-        contador ++;
-        nombre = "C"+contador;
+        this.id = id;
+        this.nombre = "C"+id;
+    }
+
+    public int getId(){
+        return id;
     }
 
     @Override
@@ -34,8 +38,14 @@ public class Cliente implements Runnable {
 
         };
         int i = generator.nextInt(menu.size()) + 1;
-        String pedido = delivery.pedirComida(i);
+        String pedido = delivery.pedirComida(i, this);
         System.out.println(nombre + " pide "+ menu.get(i)+ " y recibe la comanda: "+pedido);
+    }
+
+    public int contestarEncuesta(){
+        int respuesta = generator.nextInt(10)+1;
+        System.out.println("________________ Cliente "+id+ "responde encuesta con un: "+respuesta);
+        return respuesta;
     }
 
 }
