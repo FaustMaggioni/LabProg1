@@ -11,15 +11,23 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class AdministradorDelivery {
 
+    private static int DURACION_ENCUESTA = 1;
+    private static int CANTIDAD_ENCUESTADORES = 5;
+    private static int DELAY_INICIAL = 30;
+    private static int INTERVALO_ENCUESTA = 20;
     private static int contadorPedido = 0;
+
     private final FabricaRepartidorEnAuto fabricaAuto = new FabricaRepartidorEnAuto();
     private final FabricaRepartidorEnMoto fabricaMoto = new FabricaRepartidorEnMoto();
     private final FabricaRepartidorEnBici fabricaBici = new FabricaRepartidorEnBici();
+
     private final HashMap<Integer, String> menu = new HashMap();
     private final HashMap<Integer, FabricaRepartidores> fabricas = new HashMap();
+
     private LinkedBlockingQueue<Cliente> clientesAConsultar = new LinkedBlockingQueue<Cliente>();
     private CopyOnWriteArrayList<Integer> calificaciones = new CopyOnWriteArrayList<Integer>();
     private ScheduledExecutorService inspectores = Executors.newScheduledThreadPool(5);
+
     private boolean encuestaAbierta = true;
 
     public AdministradorDelivery() {
@@ -30,7 +38,7 @@ public class AdministradorDelivery {
     }
 
     private void setEncuesta() {
-        for(int i=0; i<5; i++) {
+        for(int i=0; i<CANTIDAD_ENCUESTADORES; i++) {
             inspectores.scheduleAtFixedRate(() -> {
                 try {
                     Cliente clienteAConsultar = clientesAConsultar.take();
@@ -39,7 +47,7 @@ public class AdministradorDelivery {
                 }catch (InterruptedException e){
                     System.out.println(e.getMessage());
                 }
-            }, 30, 20, TimeUnit.SECONDS);
+            }, DELAY_INICIAL, INTERVALO_ENCUESTA, TimeUnit.SECONDS);
         }
     }
 
@@ -49,7 +57,7 @@ public class AdministradorDelivery {
             encuestaAbierta = false;
             double promedioCalificaciones = calcularPromedioCalificaciones();
             System.out.println(" - - - - - RESULTADOS DE LA ENCUESTA!!!!! \n PROMEDIO CALIFICACIONES: "+promedioCalificaciones);
-        }, 1, TimeUnit.MINUTES);
+        }, DURACION_ENCUESTA, TimeUnit.MINUTES);
     }
 
     private double calcularPromedioCalificaciones(){
