@@ -20,7 +20,8 @@ public class AdministradorDelivery {
     private LinkedBlockingQueue<Cliente> clientesAConsultar = new LinkedBlockingQueue<Cliente>();
     private CopyOnWriteArrayList<Integer> calificaciones = new CopyOnWriteArrayList<Integer>();
     private ScheduledExecutorService inspectores = Executors.newScheduledThreadPool(5);
-    private ReentrantLock clientesLock = new ReentrantLock();
+    private boolean encuestaAbierta = true;
+
     public AdministradorDelivery() {
         this.llenarMenu();
         this.setFabricas();
@@ -45,6 +46,7 @@ public class AdministradorDelivery {
     private void setCorte(){
         inspectores.schedule(() -> {
             inspectores.shutdownNow();
+            encuestaAbierta = false;
             double promedioCalificaciones = calcularPromedioCalificaciones();
             System.out.println(" - - - - - RESULTADOS DE LA ENCUESTA!!!!! \n PROMEDIO CALIFICACIONES: "+promedioCalificaciones);
         }, 1, TimeUnit.MINUTES);
@@ -77,13 +79,20 @@ public class AdministradorDelivery {
     }
 
     public String pedirComida(int n, Cliente cliente) {
-        String comida = menu.get(n), pedido;
+        String comida = menu.get(n);
         contadorPedido++;
-        FabricaRepartidores fabrica = fabricas.get(n);
-        pedido = "pedido" + contadorPedido;
+        FabricaRepartidores fabrica = getFabrica(n);
+        String pedido = "pedido" + contadorPedido;
         asignar(fabrica, pedido, comida);
-        añadirCliente(cliente);
+        if(encuestaAbierta) {
+            añadirCliente(cliente);
+        }
         return pedido;
+    }
+
+    private FabricaRepartidores getFabrica(int n){
+        FabricaRepartidores fabrica = fabricas.get(n);
+        return fabrica;
     }
 
     private void añadirCliente(Cliente cliente) {
