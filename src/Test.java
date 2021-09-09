@@ -12,7 +12,11 @@ public class Test {
         AdministradorDelivery delivery = new AdministradorDelivery();
         ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
         AtomicInteger cont = new AtomicInteger();
+        
+        Thread hiloEncuesta = new Thread(new Encuesta());
         Runnable ejecutable = crearEjecutable(delivery,cont);
+
+        hiloEncuesta.start();
         pool.scheduleAtFixedRate(ejecutable, DELAY_INICIAL, INTERVALO, TimeUnit.SECONDS);
     }
 
@@ -23,4 +27,5 @@ public class Test {
         };
         return ejecutable;
     }
+
 }
