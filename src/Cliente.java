@@ -12,7 +12,7 @@ import java.util.Random;
  * @author tog
  */
 public class Cliente implements Runnable {
-
+    private final MAXIMA_CALIFICACION = 10;
     private int id = 0;
     private String nombre;
     private final AdministradorDelivery delivery;
@@ -43,7 +43,7 @@ public class Cliente implements Runnable {
     }
 
     public int contestarEncuesta(){
-        int respuesta = generator.nextInt(10)+1;
+        int respuesta = generator.nextInt(MAXIMA_CALIFICACION)+1;
         System.out.println("________________ Cliente "+id+ "responde encuesta con un: "+respuesta);
         return respuesta;
     }

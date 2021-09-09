@@ -90,7 +90,7 @@ public class AdministradorDelivery {
         String comida = menu.get(n);
         contadorPedido++;
         FabricaRepartidores fabrica = getFabrica(n);
-        String pedido = "pedido" + contadorPedido;
+        String pedido = "pedido " + contadorPedido;
         asignar(fabrica, pedido, comida);
         if(encuestaAbierta) {
             añadirCliente(cliente);

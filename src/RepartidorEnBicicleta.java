@@ -11,6 +11,6 @@ public class RepartidorEnBicicleta extends Repartidor {
     protected void arrancar() throws Exception {
         super.arrancar();
         System.out.println(nombre + " desata la bici");
-        Thread.sleep(20000);
+        Thread.sleep(2000);
     }
 }
