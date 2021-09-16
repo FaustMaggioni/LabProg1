@@ -45,7 +45,7 @@ public class AdministradorDelivery {
             String comida = menu.get(n);
             FabricaRepartidores fabrica = getFabrica(n);
             String pedido = "pedido " + contadorPedido.getAndIncrement();
-            asignar(fabrica, pedido, comida);
+            asignarRepartidorAPedido(fabrica, pedido, comida);
             if(encuesta.encuestaAbierta()) {
                 encuesta.addCliente(cliente);
             }
@@ -57,7 +57,7 @@ public class AdministradorDelivery {
             return fabrica;
         }
 
-        public void asignar(FabricaRepartidores fabrica, String pedido, String comida) {
+        public void asignarRepartidorAPedido(FabricaRepartidores fabrica, String pedido, String comida) {
             Repartidor repartidor = fabrica.crearRepartidor(pedido, comida);
             Thread repartidorHilo = new Thread(repartidor);
             repartidorHilo.start();
