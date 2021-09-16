@@ -5,9 +5,10 @@
  */
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
-    public class AdministradorDelivery {
-        private static int contadorPedido = 0;
+public class AdministradorDelivery {
+        private static AtomicInteger contadorPedido = new AtomicInteger(0);
 
         private final FabricaRepartidorEnAuto fabricaAuto = new FabricaRepartidorEnAuto();
         private final FabricaRepartidorEnMoto fabricaMoto = new FabricaRepartidorEnMoto();
@@ -42,9 +43,8 @@ import java.util.HashMap;
 
         public String pedirComida(int n, Cliente cliente) {
             String comida = menu.get(n);
-            contadorPedido++;
             FabricaRepartidores fabrica = getFabrica(n);
-            String pedido = "pedido " + contadorPedido;
+            String pedido = "pedido " + contadorPedido.getAndIncrement();
             asignar(fabrica, pedido, comida);
             if(encuesta.encuestaAbierta()) {
                 encuesta.addCliente(cliente);
