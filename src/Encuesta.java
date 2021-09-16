@@ -1,3 +1,5 @@
+import java.util.concurrent.*;
+
 public class Encuesta implements Runnable {
     private static int DURACION_ENCUESTA = 1;
     private static int CANTIDAD_ENCUESTADORES = 5;
@@ -6,6 +8,7 @@ public class Encuesta implements Runnable {
 
     private LinkedBlockingQueue<Cliente> clientesAConsultar = new LinkedBlockingQueue<Cliente>();
     private CopyOnWriteArrayList<Integer> calificaciones = new CopyOnWriteArrayList<Integer>();
+
     private ScheduledExecutorService inspectores = Executors.newScheduledThreadPool(CANTIDAD_ENCUESTADORES);
 
     private boolean encuestaAbierta = true;
@@ -16,7 +19,7 @@ public class Encuesta implements Runnable {
     }
 
     public void addCliente(Cliente cliente){
-        clienteAConsultar.add(cliente);
+        clientesAConsultar.add(cliente);
     }
 
     public boolean encuestaAbierta(){

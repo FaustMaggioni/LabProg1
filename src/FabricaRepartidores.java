@@ -5,7 +5,7 @@
 abstract public class FabricaRepartidores {
 
     public Repartidor llamarDelivery(String pedido,String comida){
-        Repartidor repartidor = crearRepartidor( pedido,comida);
+        Repartidor repartidor = crearRepartidor(pedido,comida);
         return repartidor;
     }
 

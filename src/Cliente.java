@@ -12,7 +12,7 @@ import java.util.Random;
  * @author tog
  */
 public class Cliente implements Runnable {
-    private final MAXIMA_CALIFICACION = 10;
+    private final int MAXIMA_CALIFICACION = 10;
     private int id = 0;
     private String nombre;
     private final AdministradorDelivery delivery;
