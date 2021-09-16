@@ -15,7 +15,7 @@ public class Encuesta implements Runnable {
 
     public void run(){
         this.comenzarEncuesta();
-        this.setCorte();
+        this.setCorteEncuesta();
     }
 
     public void addCliente(Cliente cliente){
@@ -40,7 +40,7 @@ public class Encuesta implements Runnable {
         }
     }
 
-    private void setCorte(){
+    private void setCorteEncuesta(){
         inspectores.schedule(() -> {
             inspectores.shutdownNow();
             encuestaAbierta = false;
@@ -53,7 +53,7 @@ public class Encuesta implements Runnable {
         int sumatoria=0;
         int tam = calificaciones.size();
         for(int i=0; i<tam;i++){
-            sumatoria+= (int) calificaciones.get(i);
+            sumatoria+= calificaciones.get(i);
         }
         double promedio = sumatoria/tam;
         return promedio;

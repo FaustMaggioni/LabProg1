@@ -46,10 +46,14 @@ public class AdministradorDelivery {
             FabricaRepartidores fabrica = getFabrica(n);
             String pedido = "pedido " + contadorPedido.getAndIncrement();
             asignarRepartidorAPedido(fabrica, pedido, comida);
+            añadirClienteAEncuesta(cliente);
+            return pedido;
+        }
+
+        private void añadirClienteAEncuesta(Cliente cliente){
             if(encuesta.encuestaAbierta()) {
                 encuesta.addCliente(cliente);
             }
-            return pedido;
         }
 
         private FabricaRepartidores getFabrica(int n){
